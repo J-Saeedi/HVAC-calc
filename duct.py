@@ -1,3 +1,5 @@
+import colebrook
+
 
 def calculate_pressure_drop(Dh, length, velocity, friction_factor=0.02, density=1.184):
     # air density in kg/m^3
@@ -17,6 +19,11 @@ def calculate_hydraulic_diameter(width, height):
     return hydraulic_diameter
 
 
+def calculate_friction_factor(Re, roughness):
+    f = colebrook.bntFriction(Re, roughness)
+    return f
+
+
 duct = (47e-2, 47e-2)  # width , height
 Dh = calculate_hydraulic_diameter(*duct)
 print(f"{Dh=}")
@@ -24,5 +31,7 @@ print(f"{Dh=}")
 hydraulic_diameter = Dh  # meters
 air_flow_rate = 10200  # cfm
 length = 16 + 9  # m
+friction_factor = calculate_friction_factor(2.89e5, 0.0003)
+print(f"{friction_factor=}")
 pressure_drop = calculate_pressure_drop(hydraulic_diameter, length, 21.7)
 print(f"Pressure Drop: {pressure_drop=:.3f} Pa")
